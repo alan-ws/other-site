@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
 		return NextResponse.rewrite(request.nextUrl.href.replace('editor', '404'));
 	if (request.headers.get('x-vercel-protection-bypass') === process.env.SECRET_BYPASS) {
 		const response = NextResponse.next();
-		response.cookies.set('x-vercel-set-bypass-cookie', true);
+		response.cookies.set('x-vercel-set-bypass-cookie', 'true');
 		return response;
 	}
 	return NextResponse.rewrite(request.nextUrl.href.replace('editor', '404'));
