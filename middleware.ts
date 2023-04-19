@@ -6,7 +6,9 @@ export const config = {
 }
 
 export function middleware(request: NextRequest) {
-	if (request.headers['x-vercel-protection-bypass'] === process.env.SECRET_BYPASS) {
+	if (!process.env.SECRET_BYPASS)
+		return NextResponse.rewrite(request.nextUrl.href.replace('editor', '404'));
+	if (request.headers.get('x-vercel-protection-bypass') === process.env.SECRET_BYPASS) {
 		const response = NextResponse.next();
 		response.cookies.set('x-vercel-set-bypass-cookie', true);
 		return response;
